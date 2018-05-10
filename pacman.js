@@ -1,6 +1,7 @@
 // Setup initial game stats
 var score = 0;
 var lives = 2;
+var powerPallets = 4;
 
 
 // Define your ghosts here
@@ -51,7 +52,7 @@ function drawScreen() {
 function eatGhost(ghost) {
   if (ghost.edible === false) {
     lives -= 1
-    return console.log(ghost.colour + ' ' + ghost.name + ' Killed pacman');
+    return console.log(' '+ghost.colour + ' ' + ghost.name + ' Killed pacman');
   }
 
 }
@@ -60,12 +61,15 @@ function clearScreen() {
 }
 
 function displayStats() {
-  console.log('Score: ' + score + '     Lives: ' + lives);
+  console.log('Score: ' + score + '     Lives: ' + lives+'     Power Pallets: ' + powerPallets);
 }
 
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
+  if (powerPallets > 0) {
+    console.log('(p) Eat Power-Pallet');
+  }
   console.log('(1) Inky');
   console.log('(2) Blinky');
   console.log('(3) Pinky');
@@ -78,6 +82,13 @@ function displayPrompt() {
   process.stdout.write('\nWaka Waka :v '); // :v is the Pac-Man emoji.
 }
 
+function eatPowerPallet() {
+  score += 50
+  for (var i = 0; i < ghosts.length; i++) {
+    ghosts[i].edible = true
+  }
+  powerPallets -= 1
+}
 
 // Menu Options
 function eatDot() {
@@ -96,23 +107,39 @@ function processInput(key) {
     case 'd':
       eatDot();
       break;
+    case 'p':
+    if (powerPallets > 0) {
+        eatPowerPallet();
+    } else {
+      console.log('    No Power Pallets');
+    }
+      break;
     case '1':
       eatGhost(ghosts[0]);
+      livesBelowZero();
       break;
     case '2':
       eatGhost(ghosts[1]);
+      livesBelowZero();
       break;
     case '3':
       eatGhost(ghosts[2]);
+      livesBelowZero();
       break;
     case '4':
       eatGhost(ghosts[3]);
+      livesBelowZero();2
       break;
     default:
       console.log('\nInvalid Command!');
   }
 }
 
+function livesBelowZero() {
+  if (lives <= 0) {
+    process.exit()
+  }
+}
 
 //
 // YOU PROBABLY DON'T WANT TO CHANGE CODE BELOW THIS LINE
