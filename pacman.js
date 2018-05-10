@@ -20,7 +20,7 @@ var blinky = {
   edible: false
 };
 
-var Pinky = {
+var pinky = {
   menu_option: '3',
   name: 'Pinky',
   colour: 'Pink',
@@ -28,7 +28,7 @@ var Pinky = {
   edible: false
 };
 
-var Clyde = {
+var clyde = {
   menu_option: '4',
   name: 'Clyde',
   colour: 'Orage',
@@ -36,9 +36,7 @@ var Clyde = {
   edible: false
 };
 
-
-
-// replace this comment with your four ghosts setup as objects
+var ghosts = [inky, blinky, pinky, clyde]
 
 
 // Draw the screen functionality
@@ -50,7 +48,13 @@ function drawScreen() {
     displayPrompt();
   }, 10);
 }
+function eatGhost(ghost) {
+  if (ghost.edible === false) {
+    lives -= 1
+    return console.log(ghost.colour + ' ' + ghost.name + ' Killed pacman');
+  }
 
+}
 function clearScreen() {
   console.log('\x1Bc');
 }
@@ -62,6 +66,10 @@ function displayStats() {
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
+  console.log('(1) Inky');
+  console.log('(2) Blinky');
+  console.log('(3) Pinky');
+  console.log('(4) Clyde');
   console.log('(q) Quit');
 }
 
@@ -87,6 +95,18 @@ function processInput(key) {
       break;
     case 'd':
       eatDot();
+      break;
+    case '1':
+      eatGhost(ghosts[0]);
+      break;
+    case '2':
+      eatGhost(ghosts[1]);
+      break;
+    case '3':
+      eatGhost(ghosts[2]);
+      break;
+    case '4':
+      eatGhost(ghosts[3]);
       break;
     default:
       console.log('\nInvalid Command!');
